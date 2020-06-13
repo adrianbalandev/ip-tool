@@ -70,7 +70,7 @@
                     Local IP: \x1b[36m${await this.localIPv4}\x1b[0m
                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 `)
-                : console.log(`pub: ${await this.publicIPv4}\nloc: ${await this.localIPv4}`);
+                : console.log(`pub:${await this.publicIPv4}\nloc:${await this.localIPv4}`);
             }
             else
             {
