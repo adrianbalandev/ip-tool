@@ -1,0 +1,89 @@
+#! /usr/local/bin/node
+
+/**
+ * @author Adrian Balan <https://github.com/adrianbalandev>
+*/
+
+(() =>
+{
+    //imports
+    const publicIp = require('public-ip');
+    const util = require('util');
+    const exec = util.promisify(require('child_process').exec);
+
+
+    class Options
+    {
+        constructor(args = [])
+        {
+            this.local = args.includes("-l") ? true : false;
+            this.public = args.includes("-p") ? true : false;
+            this.verbose = args.includes("-v") ? true : false;
+        }
+    }
+    //program class
+    class Program
+    {
+        constructor() 
+        {
+            this.publicIPv4 = (async() => publicIp.v4())();
+            this.localIPv4 = (async() => 
+            {
+                try 
+                {
+                    // supports darwin(mac os) and linux
+                    const { stdout, stderr } = (process.platform === 'darwin') 
+                                                ? await exec('ipconfig getifaddr en0') 
+                                                : await exec(`hostname -I | awk '{print $1}'`);
+                    return stdout;
+                }
+                catch(err) 
+                {
+                process.stderr.write(err);
+                }
+            })();
+            this.options = new Options(process.argv); 
+        }
+
+        async run()
+        {
+            if(this.options.local && !this.options.public)
+            {
+                this.options.verbose
+                ? process.stdout.write(`Your \x1b[32mlocal\x1b[0m IP address is: \x1b[36m${await this.localIPv4}\x1b[0m\r`)
+                : process.stdout.write(await this.localIPv4 + "\r");
+            }
+            else if(!this.options.local && this.options.public)
+            {
+                this.options.verbose
+                ? console.log(`Your \x1b[32mpublic\x1b[0m IP address is: \x1b[36m${await this.publicIPv4}\x1b[0m`)
+                : console.log(await this.publicIPv4);
+            }
+            else if(this.options.local && this.options.public)
+            {
+                this.options.verbose
+                ? console.log(
+                `
+                \x1b[4mYour Internet Protocol Addresses\x1b[0m >>>>>>>>>>>
+
+                    Public IP: \x1b[32m${await this.publicIPv4}\x1b[0m
+                    Local IP: \x1b[36m${await this.localIPv4}\x1b[0m
+                <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                `)
+                : console.log(`pub: ${await this.publicIPv4}\nloc: ${await this.localIPv4}`);
+            }
+            else
+            {
+                console.log("Internet Protocol Address Tool\n"
+                            + "[\x1b[32m-l\x1b[0m] --displays the local IP address\n" 
+                            + "[\x1b[32m-p\x1b[0m] --displays the public IP address\n" 
+                            + "[\x1b[32m-v\x1b[0m] --verbose setting"
+                            );
+            }
+
+            return 0;
+        }
+    }
+
+    new Program().run();
+})();

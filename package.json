@@ -1,0 +1,14 @@
+{
+  "name": "ip",
+  "version": "1.0.0",
+  "description": "IP address tool",
+  "main": "ip",
+  "scripts": {
+    "start": "./ip -l -p -v"
+  },
+  "author": "Adrian Balan",
+  "license": "MIT",
+  "dependencies": {
+    "public-ip": "^4.0.1"
+  }
+}
