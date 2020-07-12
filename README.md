@@ -2,7 +2,17 @@
 
 Displays your local or public IP address. Works on both Mac and Linux.
 
-### to see avalilable options
+#### Installation
+
+###### clone the repo
+
+```console
+foo@bar:~$ git clone https://github.com/adrianbalandev/ipa.git
+foo@bar:~$ cd ipa
+foo@bar:~$ npm install
+```
+
+#### to see avalilable options
 
 ```console
 foo@bar:~$ ipa
@@ -12,34 +22,34 @@ Internet Protocol Address Tool
 [-v] --verbose setting
 ```
 
-### to get your local ip address
+#### to get your local ip address
 
 ```console
-foo@bar~$ ipa -l
+foo@bar:~$ ipa -l
 192.168.1.3
 ```
 
-### to get your public ip address
+#### to get your public ip address
 
 ```console
-foo@bar~$ ipa -p
+foo@bar:~$ ipa -p
 109.73.16.70
 ```
 
-### to get both
+#### to get both
 
 ```console
-foo@bar~$ ipa -l -p
+foo@bar:~$ ipa -l -p
 pub:109.73.16.70
 loc:192.168.1.3
 ```
 
-### verbose can be used with either or both
+#### verbose can be used with either or both
 
-#### e.g.
+##### e.g.
 
 ```console
-foo@bar~$ ipa -v -l -p
+foo@bar:~$ ipa -v -l -p
 
                 Your Internet Protocol Addresses >>>>>>>>>>>
 
